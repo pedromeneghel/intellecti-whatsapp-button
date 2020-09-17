@@ -110,6 +110,8 @@ class Intellecti_Whatsapp_Button {
     private function define_admin_hooks() {
         $admin = new Intellecti_Whatsapp_Button_Admin($this->get_version());
 
+        $this->loader->add_action('admin_init', $admin, 'register_section_page');
+        $this->loader->add_action('admin_init', $admin, 'register_fields');
         $this->loader->add_action('admin_menu', $admin, 'add_settings_page');
     }
 
@@ -126,8 +128,8 @@ class Intellecti_Whatsapp_Button {
     private function define_theme_hooks() {
         $theme = new Intellecti_Whatsapp_Button_Theme($this->get_version());
         $this->loader->add_action('wp_enqueue_scripts', $theme, 'enqueue_styles');
+        $this->loader->add_action('wp_footer', $theme, 'render_whatsapp_button');
 
-        $theme->render_whatsapp_button();
     }
 
     /**

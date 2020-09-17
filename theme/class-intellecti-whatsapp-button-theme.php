@@ -128,8 +128,14 @@ class Intellecti_Whatsapp_Button_Theme
         );
     }
 
+    /**
+     * Requisita o arquivo responsável por exibir a janela de chat no tema
+     * corrente do WordPress.
+     */
     public function render_whatsapp_button()
     {
-        require_once plugin_dir_path(__FILE__) . 'partials/intellecti-whatsapp-button-template-2.php';
+        if(!is_admin()){
+            require_once plugin_dir_path(__FILE__) . 'partials/intellecti-whatsapp-button-template-1.php';
+        }
     }
 }

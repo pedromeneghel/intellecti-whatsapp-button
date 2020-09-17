@@ -31,7 +31,7 @@ class Intellecti_Whatsapp_Button_Loader {
      * Uma referência ao vetor de filtros usados em todo o plugin.
      *
      * @access protected
-     * @var     array        $filters   O array de filtros que são definidos em
+     * @var     array        $filters   Array de filtros que são definidos em
      * todo o plugin.
      */
     protected $filters;

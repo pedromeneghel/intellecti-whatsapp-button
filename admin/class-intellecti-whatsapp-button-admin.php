@@ -47,7 +47,135 @@ class Intellecti_Whatsapp_Button_Admin {
             'intellecti-whatsapp-button-options',
 			array($this, 'render_settings_page')
 		);
-	}
+    }
+
+    /**
+     * Registra a seção de campos da página de parâmetros do plugin.
+     */
+    public function register_section_page() {
+        add_settings_section(
+            'iwb_options',
+            'Configurações do plugin',
+            function( $args ){
+                echo 'Abaixo estão disposníveis todos as configurações do plugin.';
+            },
+            'iwb_options_group'
+        );
+    }
+
+    /**
+     * Registra os campos ncessários de parâmetros do plugin.
+     */
+    public function register_fields(){
+        register_setting(
+            'iwb_options_group',
+            'iwb_status',
+            array(
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+                'default' => NULL,
+            )
+        );
+        add_settings_field(
+            'iwb_status',
+            'Plugin ativo',
+            array($this, 'input_field'),
+            'iwb_options_group',
+            'iwb_options',
+            [
+                'label_for' => 'iwb_status_id',
+                'class'     => 'classe-html-tr',
+                'name'      => 'iwb_status'
+            ]
+        );
+
+        register_setting(
+            'iwb_options_group',
+            'iwb_button_text',
+            array(
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+                'default' => 'Precisa de? Vamos conversar',
+            )
+        );
+        add_settings_field(
+            'iwb_button_text',
+            'Texto do botão',
+            array($this, 'input_field'),
+            'iwb_options_group',
+            'iwb_options',
+            [
+                'label_for' => 'iwb_button_text_id',
+                'class'     => 'classe-html-tr',
+                'name'      => 'iwb_button_text'
+            ]
+        );
+
+        register_setting(
+            'iwb_options_group',
+            'iwb_chat_title',
+            array(
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+                'default' => 'Precisa de ajuda? Converse conosco!',
+            )
+        );
+        add_settings_field(
+            'iwb_chat_title',
+            'Título da janela de chat',
+            array($this, 'input_field'),
+            'iwb_options_group',
+            'iwb_options',
+            [
+                'label_for' => 'iwb_chat_title_id',
+                'class'     => 'classe-html-tr',
+                'name'      => 'iwb_chat_title'
+            ]
+        );
+
+        register_setting(
+            'iwb_options_group',
+            'iwb_chat_description',
+            array(
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+                'default' => 'Contate um membro de nossa equipe',
+            )
+        );
+        add_settings_field(
+            'iwb_chat_description',
+            'Descrição da janela de chat',
+            array($this, 'input_field'),
+            'iwb_options_group',
+            'iwb_options',
+            [
+                'label_for' => 'iwb_chat_description_id',
+                'class'     => 'classe-html-tr',
+                'name'      => 'iwb_chat_description'
+            ]
+        );
+    }
+
+    /**
+     * Método genérico para geração de campos do tipo input para formulário.
+     */
+    public function input_field($args){
+        $options = get_option($args['name']);
+
+        echo '
+            <input
+                type="text"
+                id="' . esc_attr( $args['label_for'] ) . '"
+                name="' . esc_attr( $args['name'] ) . '"
+                value="' . esc_attr( $options ) . '"
+                class="regular-text"
+            >
+        ';
+    }
+
+    private function select_field(){
+
+    }
 
     /**
      * Requisita o arquivo responsável por exibir no painel de controle as opções

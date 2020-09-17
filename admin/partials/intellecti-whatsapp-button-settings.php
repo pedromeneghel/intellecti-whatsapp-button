@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Exibe a interface do usuário configuração do plugin no painl de controle.
  *
@@ -11,4 +12,11 @@
 ?>
 <div class="wrap">
     <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
+    <form action="options.php" method="post">
+        <?php
+        settings_fields('iwb_options_group');
+        do_settings_sections('iwb_options_group');
+        submit_button();
+        ?>
+    </form>
 </div>
