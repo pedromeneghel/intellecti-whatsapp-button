@@ -110,6 +110,7 @@ class Intellecti_Whatsapp_Button {
     private function define_admin_hooks() {
         $admin = new Intellecti_Whatsapp_Button_Admin($this->get_version());
 
+        $this->loader->add_action('init', $admin, 'register_post_type_atendent');
         $this->loader->add_action('admin_init', $admin, 'register_section_page');
         $this->loader->add_action('admin_init', $admin, 'register_fields');
         $this->loader->add_action('admin_menu', $admin, 'add_settings_page');

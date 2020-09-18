@@ -243,7 +243,64 @@ class Intellecti_Whatsapp_Button_Admin {
      * Requisita o arquivo responsável por exibir no painel de controle as opções
      * de configuração do plugin.
      */
-	public function render_settings_page() {
+    public function render_settings_page()
+    {
 		require_once plugin_dir_path(__FILE__) . 'partials/intellecti-whatsapp-button-settings.php';
-	}
+    }
+
+    public function register_post_type_atendent()
+    {
+        $labels = [
+            "name" => __("Intellecti WhatsApp Button - Atendentes", "intellecti"),
+            "singular_name" => __("Intellecti WhatsApp Button - Atendente", "intellecti"),
+            "menu_name" => __("IWB - Atendentes", "intellecti"),
+            "all_items" => __("Todos os atendentes", "intellecti"),
+            "add_new" => __("Adicionar novo atendente", "intellecti"),
+            "add_new_item" => __("Adicionar novo atendente", "intellecti"),
+            "edit_item" => __("Editar atendente", "intellecti"),
+            "new_item" => __("Novo atendente", "intellecti"),
+            "view_item" => __("Ver atendente", "intellecti"),
+            "view_items" => __("Ver atendentes", "intellecti"),
+            "search_items" => __("Procurar atendente", "intellecti"),
+            "not_found" => __("Atendente não encontrado", "intellecti"),
+            "not_found_in_trash" => __("Atendente não encontrado na lixeira", "intellecti"),
+            "featured_image" => __("Foto do atendente", "intellecti"),
+            "set_featured_image" => __("Definir foto do atendente", "intellecti"),
+            "remove_featured_image" => __("Remover foto do atendente", "intellecti"),
+            "use_featured_image" => __("Usar esta foto para o atendente", "intellecti"),
+            "archives" => __("Atendentes arquivados", "intellecti"),
+            "insert_into_item" => __("Inserir atendente", "intellecti"),
+            "filter_items_list" => __("Filtrar lista de atendenetes", "intellecti"),
+            "items_list" => __("Lista de atendentes", "intellecti"),
+            "name_admin_bar" => __("Novo atendente", "intellecti"),
+            "item_published" => __("Atendente publicado", "intellecti"),
+            "item_scheduled" => __("Atendente agendado", "intellecti"),
+            "item_updated" => __("Atendente atualizado", "intellecti"),
+        ];
+
+        $args = [
+            "label" => __("Intellecti WhatsApp Button - Atendentes", "intellecti"),
+            "labels" => $labels,
+            "description" => "Gestão dos integrantes do time de atendimento disponibilizado no chat de atendimento via WhatsApp",
+            "public" => true,
+            "publicly_queryable" => true,
+            "show_ui" => true,
+            "show_in_rest" => false,
+            "rest_base" => "",
+            "rest_controller_class" => "WP_REST_Posts_Controller",
+            "has_archive" => false,
+            "show_in_menu" => true,
+            "show_in_nav_menus" => true,
+            "delete_with_user" => false,
+            "exclude_from_search" => false,
+            "capability_type" => "post",
+            "map_meta_cap" => true,
+            "hierarchical" => false,
+            "rewrite" => ["slug" => "iwb-team", "with_front" => true],
+            "query_var" => true,
+            "supports" => ["title", "thumbnail"],
+        ];
+
+        register_post_type("iwb-team", $args);
+    }
 }
