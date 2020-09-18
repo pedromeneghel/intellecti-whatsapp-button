@@ -67,6 +67,7 @@ class Intellecti_Whatsapp_Button_Admin {
      * Registra os campos ncessários de parâmetros do plugin.
      */
     public function register_fields(){
+        // Registrando o campo iwb_status
         register_setting(
             'iwb_options_group',
             'iwb_status',
@@ -76,19 +77,26 @@ class Intellecti_Whatsapp_Button_Admin {
                 'default' => NULL,
             )
         );
+
+        // Adicionando o campo iwb_status
         add_settings_field(
             'iwb_status',
             'Plugin ativo',
-            array($this, 'input_field'),
+            array($this, 'select_field'),
             'iwb_options_group',
             'iwb_options',
             [
                 'label_for' => 'iwb_status_id',
                 'class'     => 'classe-html-tr',
-                'name'      => 'iwb_status'
+                'name'      => 'iwb_status',
+                'options'   => array(
+                    'Sim',
+                    'Não'
+                )
             ]
         );
 
+        // Registrando o campo iwb_button_text
         register_setting(
             'iwb_options_group',
             'iwb_button_text',
@@ -98,6 +106,8 @@ class Intellecti_Whatsapp_Button_Admin {
                 'default' => 'Precisa de? Vamos conversar',
             )
         );
+
+        // Adicionando o campo iwb_button_text
         add_settings_field(
             'iwb_button_text',
             'Texto do botão',
@@ -111,6 +121,7 @@ class Intellecti_Whatsapp_Button_Admin {
             ]
         );
 
+        // Registrando o campo iwb_chat_title
         register_setting(
             'iwb_options_group',
             'iwb_chat_title',
@@ -120,6 +131,8 @@ class Intellecti_Whatsapp_Button_Admin {
                 'default' => 'Precisa de ajuda? Converse conosco!',
             )
         );
+
+        // Adicionando o campo iwb_chat_title
         add_settings_field(
             'iwb_chat_title',
             'Título da janela de chat',
@@ -133,6 +146,7 @@ class Intellecti_Whatsapp_Button_Admin {
             ]
         );
 
+        // Registrando o campo iwb_chat_description
         register_setting(
             'iwb_options_group',
             'iwb_chat_description',
@@ -142,6 +156,8 @@ class Intellecti_Whatsapp_Button_Admin {
                 'default' => 'Contate um membro de nossa equipe',
             )
         );
+
+        // Adicionando o campo iwb_chat_description
         add_settings_field(
             'iwb_chat_description',
             'Descrição da janela de chat',
@@ -160,21 +176,33 @@ class Intellecti_Whatsapp_Button_Admin {
      * Método genérico para geração de campos do tipo input para formulário.
      */
     public function input_field($args){
-        $options = get_option($args['name']);
+        $value = get_option($args['name']);
 
         echo '
             <input
                 type="text"
-                id="' . esc_attr( $args['label_for'] ) . '"
-                name="' . esc_attr( $args['name'] ) . '"
-                value="' . esc_attr( $options ) . '"
+                id="' . esc_attr($args['label_for']) . '"
+                name="' . esc_attr($args['name']) . '"
+                value="' . esc_attr($value) . '"
                 class="regular-text"
             >
         ';
     }
 
-    private function select_field(){
+    public function select_field($args){
+        $value = get_option($args['name']);
 
+        echo '
+            <select name="' . esc_attr($args['name']) . '">
+        ';
+
+        foreach($args['options'] as $option){
+            echo '<option ' . selected($value, $option) . '>' . $option . '</option>';
+        }
+
+        echo '
+            </select>
+        ';
     }
 
     /**
