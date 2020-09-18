@@ -170,6 +170,34 @@ class Intellecti_Whatsapp_Button_Admin {
                 'name'      => 'iwb_chat_description'
             ]
         );
+
+        // Registrando campo iwb_template
+        register_setting(
+            'iwb_options_group',
+            'iwb_template',
+            array(
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field'
+            )
+        );
+
+        // Adicionando a capo
+        add_settings_field(
+            'iwb_template',
+            'Template da janela de atendimento',
+            array($this, 'select_field'),
+            'iwb_options_group',
+            'iwb_options',
+            [
+                'label_for' => 'iwb_template_id',
+                'class'     => 'classe-html-tr',
+                'name'      => 'iwb_template',
+                'options' => array(
+                    'Template 1',
+                    'Template 2'
+                )
+            ]
+        );
     }
 
     /**
@@ -185,19 +213,25 @@ class Intellecti_Whatsapp_Button_Admin {
                 name="' . esc_attr($args['name']) . '"
                 value="' . esc_attr($value) . '"
                 class="regular-text"
+                required
             >
         ';
     }
 
+    /**
+     * Método genérico para geração de campos do tipo input para formulário.
+     */
     public function select_field($args){
-        $value = get_option($args['name']);
+        $value = strtolower(str_replace(' ', '-', get_option($args['name'])));
 
         echo '
-            <select name="' . esc_attr($args['name']) . '">
+            <select name="' . esc_attr($args['name']) . '" required>
+                <option hidden></option>
         ';
 
         foreach($args['options'] as $option){
-            echo '<option ' . selected($value, $option) . '>' . $option . '</option>';
+            $valueTmp = strtolower(str_replace(' ', '-', $option));
+            echo '<option value="' . $valueTmp . '" ' . selected($value, $valueTmp) . '>' . $option . '</option>';
         }
 
         echo '

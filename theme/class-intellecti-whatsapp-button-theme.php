@@ -134,8 +134,8 @@ class Intellecti_Whatsapp_Button_Theme
      */
     public function render_whatsapp_button()
     {
-        if(!is_admin() && get_option('iwb_status') == 'Sim'){
-            require_once plugin_dir_path(__FILE__) . 'partials/intellecti-whatsapp-button-template-1.php';
+        if(!is_admin() && get_option('iwb_status') == 'sim'){
+            require_once plugin_dir_path(__FILE__) . 'partials/intellecti-whatsapp-button-' . get_option('iwb_template') . '.php';
         }
     }
 }
