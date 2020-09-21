@@ -303,4 +303,209 @@ class Intellecti_Whatsapp_Button_Admin {
 
         register_post_type("iwb-team", $args);
     }
+
+    public function register_custom_fields()
+    {
+        // Telefone do antendente
+        add_meta_box(
+            'iwb_atendent_phone_field',
+            'Telefone do Atendente',
+            array($this, 'render_atendent_phone'),
+            'iwb-team',
+            'side',
+            'default'
+        );
+
+        // Função do atendente
+        add_meta_box(
+            'iwb_atendent_occupation_field',
+            'Função do atendente',
+            array($this, 'render_atendent_occupation'),
+            'iwb-team',
+            'side',
+            'default'
+        );
+
+        // Campos dia da semana
+        add_meta_box(
+            'iwb_atendent_online_hours_field',
+            'Horários de Atendimento',
+            array($this, 'render_atendent_online_hours'),
+            'iwb-team',
+            'advanced',
+            'default'
+        );
+    }
+
+    public function save_atendent_custom_fields($post_id)
+    {
+        // Salvando o telefone do atendente
+        if (array_key_exists('iwb_atendent_phone', $_POST)) {
+            update_post_meta(
+                $post_id,
+                '_iwb_atendent_phone',
+                sanitize_text_field($_POST['iwb_atendent_phone'])
+            );
+        }
+
+        // Salvando a ocupação do atendent
+        if (array_key_exists('iwb_atendent_occupation', $_POST)) {
+            update_post_meta(
+                $post_id,
+                '_iwb_atendent_occupation',
+                sanitize_text_field($_POST['iwb_atendent_occupation'])
+            );
+        }
+
+        // Salvando horário de atendimento de segunda-feira
+        if (array_key_exists('iwb_start_hour_monday', $_POST)) {
+            update_post_meta(
+                $post_id,
+                '_iwb_start_hour_monday',
+                sanitize_text_field($_POST['iwb_start_hour_monday'])
+            );
+        }
+
+        if (array_key_exists('iwb_end_hour_monday', $_POST)) {
+            update_post_meta(
+                $post_id,
+                '_iwb_end_hour_monday',
+                sanitize_text_field($_POST['iwb_end_hour_monday'])
+            );
+        }
+
+        // Salvando horário de atendimento de terça-feira
+        if (array_key_exists('iwb_start_hour_tuesday', $_POST)) {
+            update_post_meta(
+                $post_id,
+                '_iwb_start_hour_tuesday',
+                sanitize_text_field($_POST['iwb_start_hour_tuesday'])
+            );
+        }
+
+        if (array_key_exists('iwb_end_hour_tuesday',
+            $_POST
+        )) {
+            update_post_meta(
+                $post_id,
+                '_iwb_end_hour_tuesday',
+                sanitize_text_field($_POST['iwb_end_hour_tuesday'])
+            );
+        }
+
+        // Salvando horário de atendimento de quarta-feira
+        if (array_key_exists('iwb_start_hour_wednesday', $_POST)) {
+            update_post_meta(
+                $post_id,
+                '_iwb_start_hour_wednesday',
+                sanitize_text_field($_POST['iwb_start_hour_wednesday'])
+            );
+        }
+
+        if (array_key_exists(
+            'iwb_end_hour_wednesday',
+            $_POST
+        )) {
+            update_post_meta(
+                $post_id,
+                '_iwb_end_hour_wednesday',
+                sanitize_text_field($_POST['iwb_end_hour_wednesday'])
+            );
+        }
+
+        // Salvando horário de atendimento de quinta-feira
+        if (array_key_exists('iwb_start_hour_thursday', $_POST)) {
+            update_post_meta(
+                $post_id,
+                '_iwb_start_hour_thursday',
+                sanitize_text_field($_POST['iwb_start_hour_thursday'])
+            );
+        }
+
+        if (array_key_exists(
+            'iwb_end_hour_thursday',
+            $_POST
+        )) {
+            update_post_meta(
+                $post_id,
+                '_iwb_end_hour_thursday',
+                sanitize_text_field($_POST['iwb_end_hour_thursday'])
+            );
+        }
+
+        // Salvando horário de atendimento de sexta-feira
+        if (array_key_exists('iwb_start_hour_friday', $_POST)) {
+            update_post_meta(
+                $post_id,
+                '_iwb_start_hour_friday',
+                sanitize_text_field($_POST['iwb_start_hour_friday'])
+            );
+        }
+
+        if (array_key_exists(
+            'iwb_end_hour_friday',
+            $_POST
+        )) {
+            update_post_meta(
+                $post_id,
+                '_iwb_end_hour_friday',
+                sanitize_text_field($_POST['iwb_end_hour_friday'])
+            );
+        }
+
+        // Salvando horário de atendimento de sábado
+        if (array_key_exists('iwb_start_hour_saturday', $_POST)) {
+            update_post_meta(
+                $post_id,
+                '_iwb_start_hour_saturday',
+                sanitize_text_field($_POST['iwb_start_hour_saturday'])
+            );
+        }
+
+        if (array_key_exists(
+            'iwb_end_hour_saturday',
+            $_POST
+        )) {
+            update_post_meta(
+                $post_id,
+                '_iwb_end_hour_saturday',
+                sanitize_text_field($_POST['iwb_end_hour_saturday'])
+            );
+        }
+
+        // Salvando horário de atendimento de domingo
+        if (array_key_exists('iwb_start_hour_sunday', $_POST)) {
+            update_post_meta(
+                $post_id,
+                '_iwb_start_hour_sunday',
+                sanitize_text_field($_POST['iwb_start_hour_sunday'])
+            );
+        }
+
+        if (array_key_exists(
+            'iwb_end_hour_sunday',
+            $_POST
+        )) {
+            update_post_meta(
+                $post_id,
+                '_iwb_end_hour_sunday',
+                sanitize_text_field($_POST['iwb_end_hour_sunday'])
+            );
+        }
+    }
+
+    public function render_atendent_phone($post)
+    {
+        require_once plugin_dir_path(__FILE__) . 'partials/intellecti-whatsapp-button-atendent-phone.php';
+    }
+
+    public function render_atendent_occupation($post)
+    {
+        require_once plugin_dir_path(__FILE__) . 'partials/intellecti-whatsapp-button-atendent-occupation.php';
+    }
+
+    public function render_atendent_online_hours($post)
+    {
+        require_once plugin_dir_path(__FILE__) . 'partials/intellecti-whatsapp-button-atendent-online-hours.php';
+    }
 }

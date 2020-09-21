@@ -114,6 +114,8 @@ class Intellecti_Whatsapp_Button {
         $this->loader->add_action('admin_init', $admin, 'register_section_page');
         $this->loader->add_action('admin_init', $admin, 'register_fields');
         $this->loader->add_action('admin_menu', $admin, 'add_settings_page');
+        $this->loader->add_action('add_meta_boxes', $admin, 'register_custom_fields');
+        $this->loader->add_action('save_post', $admin, 'save_atendent_custom_fields');
     }
 
     /**
