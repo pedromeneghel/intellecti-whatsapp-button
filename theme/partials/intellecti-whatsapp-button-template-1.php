@@ -10,7 +10,10 @@
  */
 ?>
 
-    <!-- template 1 start -->
+<!-- template 1 start -->
+<?php
+if ($atendents->have_posts()) :
+?>
     <div class="wsc" id="template-1">
         <div class="wsc-label">
             <?= get_option('iwb_button_text'); ?>
@@ -23,49 +26,50 @@
             <div class="wsc-header">
                 <strong><?= get_option('iwb_chat_title'); ?></strong>
                 <div class="wsc-description"><?= get_option('iwb_chat_description'); ?></div>
-                </div>
-                <div class="wsc-container">
-                    <div class="wsc-item" data-number="+905536384964" data-time='{ "Monday":"08:30-18:30", "tuesday":"08:30-18:30", "wednesday":"08:30-18:30", "thursday":"08:30-18:30", "friday":"08:30-18:30", "sunday":"08:30-24:00" }' data-text="Hello, How Can I Help You?">
-                        <div class="position-relative">
-                            <img src="<?= plugin_dir_url(__DIR__); ?>assets/images/person_5.jpg" alt="..." />
-                            <svg width="63px" height="63px" viewBox="0 0 63 63">
-                                <circle cx="31.5" cy="31.5" r="30" />
-                            </svg>
-                        </div>
-                        <div class="wsc-content">
-                            <div class="wsc-name">John Doe</div>
-                            <div class="wsc-desc">Sales Support</div>
-                            <div class="wsc-stat">Online</div>
-                        </div>
-                    </div>
-                    <div class="wsc-item" data-number="+905536384964" data-time='{ "Monday":"08:30-18:30", "tuesday":"08:30-18:30", "wednesday":"08:30-18:30", "thursday":"08:30-18:30", "friday":"08:30-18:30" }' data-text="Hello, How Can I Help You?">
-                        <div class="position-relative">
-                            <img src="<?= plugin_dir_url(__DIR__); ?>assets/images/person_6.jpg" alt="..." />
-                            <svg width="63px" height="63px" viewBox="0 0 63 63">
-                                <circle cx="31.5" cy="31.5" r="30" />
-                            </svg>
-                        </div>
-                        <div class="wsc-content">
-                            <div class="wsc-name">David Maxwell</div>
-                            <div class="wsc-desc">Customer Support</div>
-                            <div class="wsc-stat">Online</div>
-                        </div>
-                    </div>
-                    <div class="wsc-item">
-                        <div class="position-relative">
-                            <img src="<?= plugin_dir_url(__DIR__); ?>assets/images/person_7.jpg" alt="..." />
-                            <svg width="63px" height="63px" viewBox="0 0 63 63">
-                                <circle cx="31.5" cy="31.5" r="30" />
-                            </svg>
-                        </div>
-                        <div class="wsc-content">
-                            <div class="wsc-name">Jack Doe</div>
-                            <div class="wsc-desc">Techincal Support</div>
-                            <div class="wsc-stat bg-warning">Offline</div>
-                        </div>
-                    </div>
+            </div>
+            <div class="wsc-container">
+                <?php
+                while ($atendents->have_posts()) :
+                    $atendents->the_post();
 
-                </div>
+                    // Recuperando campos complementares
+                    $custom_fields = get_post_meta(get_the_ID());
+
+                    // Montando objeto com os dias
+                    $days_online = array();
+
+                    array_push($days_online, array(
+                        'Monday' => $custom_fields['_iwb_start_hour_monday'][0] . '-' . $custom_fields['_iwb_end_hour_monday'][0],
+                        'Tuesday' => $custom_fields['_iwb_start_hour_tuesday'][0] . '-' . $custom_fields['_iwb_end_hour_tuesday'][0],
+                        'Wednesday' => $custom_fields['_iwb_start_hour_wednesday'][0] . '-' . $custom_fields['_iwb_end_hour_wednesday'][0],
+                        'Thursday' => $custom_fields['_iwb_start_hour_thursday'][0] . '-' . $custom_fields['_iwb_end_hour_thursday'][0],
+                        'Friday' => $custom_fields['_iwb_start_hour_friday'][0] . '-' . $custom_fields['_iwb_end_hour_friday'][0],
+                        'Saturday' => $custom_fields['_iwb_start_hour_saturday'][0] . '-' . $custom_fields['_iwb_end_hour_saturday'][0],
+                        'Sunday' => $custom_fields['_iwb_start_hour_sunday'][0] . '-' . $custom_fields['_iwb_end_hour_sunday'][0],
+                    ));
+
+                    $json_days_online = json_encode($days_online[0], JSON_FORCE_OBJECT);
+                ?>
+                    <div class="wsc-item" data-number="<?= $custom_fields['_iwb_atendent_phone'][0]; ?>" data-time='<?= $json_days_online;?>' data-text="Olá, como posso ajudá-lo?">
+                        <div class="position-relative">
+                            <img src="<?= plugin_dir_url(__DIR__); ?>assets/images/person.jpg" alt="<?php the_title();?>" width="63" height="63" />
+                            <svg width="63px" height="63px" viewBox="0 0 63 63">
+                                <circle cx="31.5" cy="31.5" r="30" />
+                            </svg>
+                        </div>
+                        <div class="wsc-content">
+                            <div class="wsc-name"><?php the_title(); ?></div>
+                            <div class="wsc-desc"><?= $custom_fields['_iwb_atendent_occupation'][0]; ?></div>
+                            <div class="wsc-stat">Online</div>
+                        </div>
+                    </div>
+                <?php
+                endwhile;
+                ?>
             </div>
         </div>
-        <!-- template 1 end -->
+    </div>
+<?php
+endif;
+?>
+<!-- template 1 end -->
