@@ -128,6 +128,18 @@ class Intellecti_Whatsapp_Button_Theme
         );
     }
 
+    private function get_atendent_list()
+    {
+        $args = array(
+            'post_type' => 'iwb-team',
+        );
+
+        $query = new WP_Query($args);
+
+        return $query;
+    }
+
+
     /**
      * Requisita o arquivo responsável por exibir a janela de chat no tema
      * corrente do WordPress.
@@ -135,6 +147,8 @@ class Intellecti_Whatsapp_Button_Theme
     public function render_whatsapp_button()
     {
         if(!is_admin() && get_option('iwb_status') == 'sim'){
+            $atendents = $this->get_atendent_list();
+
             require_once plugin_dir_path(__FILE__) . 'partials/intellecti-whatsapp-button-' . get_option('iwb_template') . '.php';
         }
     }
