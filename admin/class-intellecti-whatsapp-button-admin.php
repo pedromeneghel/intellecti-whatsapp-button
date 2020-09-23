@@ -304,6 +304,9 @@ class Intellecti_Whatsapp_Button_Admin {
         register_post_type("iwb-team", $args);
     }
 
+    /**
+     * Registra os campos necessários para o cadastro de atendentes
+     */
     public function register_custom_fields()
     {
         // Telefone do antendente
@@ -337,6 +340,9 @@ class Intellecti_Whatsapp_Button_Admin {
         );
     }
 
+    /**
+     * Efetiva a gravação/atualização dos dados referente aos campos do cadastro de atendentes
+     */
     public function save_atendent_custom_fields($post_id)
     {
         // Salvando o telefone do atendente
@@ -494,16 +500,25 @@ class Intellecti_Whatsapp_Button_Admin {
         }
     }
 
+    /**
+     * Renderiza o campo telefone no cadastro de atendentes na sidebar
+     */
     public function render_atendent_phone($post)
     {
         require_once plugin_dir_path(__FILE__) . 'partials/intellecti-whatsapp-button-atendent-phone.php';
     }
 
+    /**
+     * Renderiza o campo ocupação/função no cadastro de atendentes na sidebar
+     */
     public function render_atendent_occupation($post)
     {
         require_once plugin_dir_path(__FILE__) . 'partials/intellecti-whatsapp-button-atendent-occupation.php';
     }
 
+    /**
+     * Renderiza os demais campos necessários no cadastro de atendentes
+     */
     public function render_atendent_online_hours($post)
     {
         require_once plugin_dir_path(__FILE__) . 'partials/intellecti-whatsapp-button-atendent-online-hours.php';
