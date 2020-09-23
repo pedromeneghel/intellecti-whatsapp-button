@@ -128,6 +128,12 @@ class Intellecti_Whatsapp_Button_Theme
         );
     }
 
+    /**
+     * Retorna a lista de atendentes ativos na plataforma para exibição na
+     * janela de atendimento.__resizable_base__
+     *
+     * @return  object      $query      Objeto com os dados dos atendnetes ativos.
+     */
     private function get_atendent_list()
     {
         $args = array(

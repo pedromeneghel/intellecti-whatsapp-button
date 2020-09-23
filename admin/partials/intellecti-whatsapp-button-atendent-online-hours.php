@@ -1,3 +1,17 @@
+<?php
+
+/**
+ * Exibe os campos de horários atendimento semanal.
+ *
+ * Este é um modelo parcial que é incluído pela classe Intellecti Whatsapp
+ * Button Admin e é utilizada para exibir na página de cadastro de atendentes os
+ * campos para cadastro dos horários no qual o atendente estará disponível para
+ * atendimento.
+ *
+ * @package IWB
+ */
+?>
+
 <h3>Segunda-feira</h3>
 <p>
     <label for="iwb_start_hour_monday">Horário de Início</label>

@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Exibe a interface do usuário configuração do plugin no painl de controle.
+ * Exibe a interface de configuração do plugin no painel de controle.
  *
  * Este é um modelo parcial que é incluído pela classe Intellecti Whatsapp
- * Button Admin que é usada para exibir todas as opções de configuração do
- * plugin.
+ * Button Admin é utilizada para exibir todas as opções de configuração do
+ * plugin no painel de controle do WordPress.
  *
  * @package IWB
  */

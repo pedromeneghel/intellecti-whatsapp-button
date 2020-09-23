@@ -1,3 +1,15 @@
+<?php
+
+/**
+ * Exibe o campo de cadastro de função/departamento do atendente.
+ *
+ * Este é um modelo parcial que é incluído pela classe Intellecti Whatsapp
+ * Button Admin e é utilizada para exibir na página de cadastro de atendentes o
+ * campo para cadastro da função/departamento do atendente.
+ *
+ * @package IWB
+ */
+?>
 <p>
     <label for="iwb_atendent_occupation">Informe o função/departamento que o atendente atua. Ex: Suporte técnico, Comercial, Financeiro, etc.</label>
     <br /><br />

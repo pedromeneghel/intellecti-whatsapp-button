@@ -32,14 +32,16 @@ class Intellecti_Whatsapp_Button_Admin {
      *
      * @param       string      $version    Versão atual do plugin.
      */
-	public function __construct( $version ) {
+    public function __construct( $version )
+    {
         $this->version = $version;
 	}
 
     /**
      * Registra no menu do painel de controle a acesso aos parâmetros do plugin.
      */
-	public function add_settings_page() {
+    public function add_settings_page()
+    {
 		add_options_page(
 			'Intellecti WhatsApp Button',
 			'WhatsApp Button',
@@ -50,9 +52,41 @@ class Intellecti_Whatsapp_Button_Admin {
     }
 
     /**
+     * Retorna a lista de atendentes ativos na plataforma para exibição na
+     * janela de atendimento.__resizable_base__
+     *
+     * @return  array      $atendents      Objeto com os dados dos atendnetes ativos.
+     */
+    private function get_atendent_list()
+    {
+        $atendents = array();
+        $args = array(
+            'post_type' => 'iwb-team',
+        );
+
+        $query = new WP_Query($args);
+
+        if($query->have_posts())
+        {
+            while ($query->have_posts())
+            {
+                $query->the_post();
+
+                array_push($atendents, array(
+                    'atendent' => get_the_title(),
+                    'ID' => get_the_ID()
+                ));
+            }
+        }
+
+        return $atendents;
+    }
+
+    /**
      * Registra a seção de campos da página de parâmetros do plugin.
      */
-    public function register_section_page() {
+    public function register_section_page()
+    {
         add_settings_section(
             'iwb_options',
             'Configurações do plugin',
@@ -66,7 +100,8 @@ class Intellecti_Whatsapp_Button_Admin {
     /**
      * Registra os campos ncessários de parâmetros do plugin.
      */
-    public function register_fields(){
+    public function register_fields()
+    {
         // Registrando o campo iwb_status
         register_setting(
             'iwb_options_group',
@@ -90,8 +125,14 @@ class Intellecti_Whatsapp_Button_Admin {
                 'class'     => 'classe-html-tr',
                 'name'      => 'iwb_status',
                 'options'   => array(
-                    'Sim',
-                    'Não'
+                    array(
+                        'label' => 'Sim',
+                        'value' => 'sim'
+                    ),
+                    array(
+                        'label' => 'Não',
+                        'value' => 'nao'
+                    )
                 )
             ]
         );
@@ -103,7 +144,7 @@ class Intellecti_Whatsapp_Button_Admin {
             array(
                 'type' => 'string',
                 'sanitize_callback' => 'sanitize_text_field',
-                'default' => 'Precisa de? Vamos conversar',
+                'default' => 'Precisa de ajuda? Vamos conversar',
             )
         );
 
@@ -171,6 +212,46 @@ class Intellecti_Whatsapp_Button_Admin {
             ]
         );
 
+        // Registrando o campo iwp_atendent_default
+        register_setting(
+            'iwb_options_group',
+            'iwb_atendent_default',
+            array(
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field'
+            )
+        );
+
+        $options = [];
+        $atendents = $this->get_atendent_list();
+
+        if($atendents)
+        {
+            foreach($atendents as $atendent)
+            {
+                array_push($options, array(
+                    'label' => $atendent['atendent'],
+                    'value' => $atendent['ID']
+                ));
+            }
+        }
+
+        // Adicionando o campo iwp_atendent_default
+        add_settings_field(
+            'iwb_atendent_default',
+            'Atendente Padrão',
+            array($this, 'select_field'),
+            'iwb_options_group',
+            'iwb_options',
+            [
+                'label_for'     => 'iwb_atendent_default_id',
+                'class'         => 'classe-html-tr',
+                'name'          => 'iwb_atendent_default',
+                'description'   => 'A opção de atendente padrão é utilizada apenas quando selecionado o Template 2 que exibe diretamente o atendente na janela de chat.',
+                'options'       => $options
+            ]
+        );
+
         // Registrando campo iwb_template
         register_setting(
             'iwb_options_group',
@@ -193,8 +274,14 @@ class Intellecti_Whatsapp_Button_Admin {
                 'class'     => 'classe-html-tr',
                 'name'      => 'iwb_template',
                 'options' => array(
-                    'Template 1',
-                    'Template 2'
+                    array(
+                        'label' => 'Template 1',
+                        'value' => 'template-1'
+                    ),
+                    array(
+                        'label' => 'Template 2',
+                        'value' => 'template-2'
+                    )
                 )
             ]
         );
@@ -203,8 +290,15 @@ class Intellecti_Whatsapp_Button_Admin {
     /**
      * Método genérico para geração de campos do tipo input para formulário.
      */
-    public function input_field($args){
+    public function input_field($args)
+    {
+        $description = '';
         $value = get_option($args['name']);
+
+        if(isset($args['description']) && !empty($args['description']))
+        {
+            $description = '<p class="description" id="' . $args['name'] .'_description">' . $args['description'] . '</p>';
+        }
 
         echo '
             <input
@@ -215,14 +309,21 @@ class Intellecti_Whatsapp_Button_Admin {
                 class="regular-text"
                 required
             >
+            ' . $description . '
         ';
     }
 
     /**
      * Método genérico para geração de campos do tipo input para formulário.
      */
-    public function select_field($args){
+    public function select_field($args)
+    {
+        $description = '';
         $value = strtolower(str_replace(' ', '-', get_option($args['name'])));
+
+        if (isset($args['description']) && !empty($args['description'])) {
+            $description = '<p class="description" id="' . $args['name'] . '_description">' . $args['description'] . '</p>';
+        }
 
         echo '
             <select name="' . esc_attr($args['name']) . '" required>
@@ -230,12 +331,13 @@ class Intellecti_Whatsapp_Button_Admin {
         ';
 
         foreach($args['options'] as $option){
-            $valueTmp = strtolower(str_replace(' ', '-', $option));
-            echo '<option value="' . $valueTmp . '" ' . selected($value, $valueTmp) . '>' . $option . '</option>';
+            var_dump($option);
+            echo '<option value="' . $option['value'] . '" ' . selected($value, $option['value']) . '>' . $option['label'] . '</option>';
         }
 
         echo '
             </select>
+            ' . $description . '
         ';
     }
 
@@ -304,6 +406,9 @@ class Intellecti_Whatsapp_Button_Admin {
         register_post_type("iwb-team", $args);
     }
 
+    /**
+     * Registra os campos necessários para o cadastro de atendentes
+     */
     public function register_custom_fields()
     {
         // Telefone do antendente
@@ -337,10 +442,14 @@ class Intellecti_Whatsapp_Button_Admin {
         );
     }
 
+    /**
+     * Efetiva a gravação/atualização dos dados referente aos campos do cadastro de atendentes
+     */
     public function save_atendent_custom_fields($post_id)
     {
         // Salvando o telefone do atendente
-        if (array_key_exists('iwb_atendent_phone', $_POST)) {
+        if (array_key_exists('iwb_atendent_phone', $_POST))
+        {
             update_post_meta(
                 $post_id,
                 '_iwb_atendent_phone',
@@ -349,7 +458,8 @@ class Intellecti_Whatsapp_Button_Admin {
         }
 
         // Salvando a ocupação do atendent
-        if (array_key_exists('iwb_atendent_occupation', $_POST)) {
+        if (array_key_exists('iwb_atendent_occupation', $_POST))
+        {
             update_post_meta(
                 $post_id,
                 '_iwb_atendent_occupation',
@@ -358,7 +468,8 @@ class Intellecti_Whatsapp_Button_Admin {
         }
 
         // Salvando horário de atendimento de segunda-feira
-        if (array_key_exists('iwb_start_hour_monday', $_POST)) {
+        if (array_key_exists('iwb_start_hour_monday', $_POST))
+        {
             update_post_meta(
                 $post_id,
                 '_iwb_start_hour_monday',
@@ -366,7 +477,8 @@ class Intellecti_Whatsapp_Button_Admin {
             );
         }
 
-        if (array_key_exists('iwb_end_hour_monday', $_POST)) {
+        if (array_key_exists('iwb_end_hour_monday', $_POST))
+        {
             update_post_meta(
                 $post_id,
                 '_iwb_end_hour_monday',
@@ -375,7 +487,8 @@ class Intellecti_Whatsapp_Button_Admin {
         }
 
         // Salvando horário de atendimento de terça-feira
-        if (array_key_exists('iwb_start_hour_tuesday', $_POST)) {
+        if (array_key_exists('iwb_start_hour_tuesday', $_POST))
+        {
             update_post_meta(
                 $post_id,
                 '_iwb_start_hour_tuesday',
@@ -385,7 +498,8 @@ class Intellecti_Whatsapp_Button_Admin {
 
         if (array_key_exists('iwb_end_hour_tuesday',
             $_POST
-        )) {
+        ))
+        {
             update_post_meta(
                 $post_id,
                 '_iwb_end_hour_tuesday',
@@ -394,7 +508,8 @@ class Intellecti_Whatsapp_Button_Admin {
         }
 
         // Salvando horário de atendimento de quarta-feira
-        if (array_key_exists('iwb_start_hour_wednesday', $_POST)) {
+        if (array_key_exists('iwb_start_hour_wednesday', $_POST))
+        {
             update_post_meta(
                 $post_id,
                 '_iwb_start_hour_wednesday',
@@ -414,7 +529,8 @@ class Intellecti_Whatsapp_Button_Admin {
         }
 
         // Salvando horário de atendimento de quinta-feira
-        if (array_key_exists('iwb_start_hour_thursday', $_POST)) {
+        if (array_key_exists('iwb_start_hour_thursday', $_POST))
+        {
             update_post_meta(
                 $post_id,
                 '_iwb_start_hour_thursday',
@@ -425,7 +541,8 @@ class Intellecti_Whatsapp_Button_Admin {
         if (array_key_exists(
             'iwb_end_hour_thursday',
             $_POST
-        )) {
+        ))
+        {
             update_post_meta(
                 $post_id,
                 '_iwb_end_hour_thursday',
@@ -445,7 +562,8 @@ class Intellecti_Whatsapp_Button_Admin {
         if (array_key_exists(
             'iwb_end_hour_friday',
             $_POST
-        )) {
+        ))
+        {
             update_post_meta(
                 $post_id,
                 '_iwb_end_hour_friday',
@@ -465,7 +583,8 @@ class Intellecti_Whatsapp_Button_Admin {
         if (array_key_exists(
             'iwb_end_hour_saturday',
             $_POST
-        )) {
+        ))
+        {
             update_post_meta(
                 $post_id,
                 '_iwb_end_hour_saturday',
@@ -474,7 +593,8 @@ class Intellecti_Whatsapp_Button_Admin {
         }
 
         // Salvando horário de atendimento de domingo
-        if (array_key_exists('iwb_start_hour_sunday', $_POST)) {
+        if (array_key_exists('iwb_start_hour_sunday', $_POST))
+        {
             update_post_meta(
                 $post_id,
                 '_iwb_start_hour_sunday',
@@ -485,7 +605,8 @@ class Intellecti_Whatsapp_Button_Admin {
         if (array_key_exists(
             'iwb_end_hour_sunday',
             $_POST
-        )) {
+        ))
+        {
             update_post_meta(
                 $post_id,
                 '_iwb_end_hour_sunday',
@@ -494,16 +615,25 @@ class Intellecti_Whatsapp_Button_Admin {
         }
     }
 
+    /**
+     * Renderiza o campo telefone no cadastro de atendentes na sidebar
+     */
     public function render_atendent_phone($post)
     {
         require_once plugin_dir_path(__FILE__) . 'partials/intellecti-whatsapp-button-atendent-phone.php';
     }
 
+    /**
+     * Renderiza o campo ocupação/função no cadastro de atendentes na sidebar
+     */
     public function render_atendent_occupation($post)
     {
         require_once plugin_dir_path(__FILE__) . 'partials/intellecti-whatsapp-button-atendent-occupation.php';
     }
 
+    /**
+     * Renderiza os demais campos necessários no cadastro de atendentes
+     */
     public function render_atendent_online_hours($post)
     {
         require_once plugin_dir_path(__FILE__) . 'partials/intellecti-whatsapp-button-atendent-online-hours.php';
