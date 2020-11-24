@@ -49,10 +49,17 @@ if ($atendents->have_posts()) :
                     ));
 
                     $json_days_online = json_encode($days_online[0], JSON_FORCE_OBJECT);
+
+                    // Verificando se tem thumbnail cadastrado
+                    if (has_post_thumbnail(get_the_ID())) {
+                        $photo = get_the_post_thumbnail();
+                    } else {
+                        $photo = '<img src="' . plugin_dir_url(__DIR__) . 'assets/images/person.jpg" alt="' . the_title() . '" width="63" height="63"/>';
+                    }
                 ?>
-                    <div class="wsc-item" data-number="<?= $custom_fields['_iwb_atendent_phone'][0]; ?>" data-time='<?= $json_days_online;?>' data-text="Olá, como posso ajudá-lo?">
+                    <div class="wsc-item" data-number="<?= $custom_fields['_iwb_atendent_phone'][0]; ?>" data-time='<?= $json_days_online; ?>' data-text="<? _e('Olá posso ajudá-lo?', 'intellecti-whatsapp-button-locale');?>">
                         <div class="position-relative">
-                            <img src="<?= plugin_dir_url(__DIR__); ?>assets/images/person.jpg" alt="<?php the_title();?>" width="63" height="63" />
+                            <?= $photo ?>
                             <svg width="63px" height="63px" viewBox="0 0 63 63">
                                 <circle cx="31.5" cy="31.5" r="30" />
                             </svg>
@@ -60,7 +67,7 @@ if ($atendents->have_posts()) :
                         <div class="wsc-content">
                             <div class="wsc-name"><?php the_title(); ?></div>
                             <div class="wsc-desc"><?= $custom_fields['_iwb_atendent_occupation'][0]; ?></div>
-                            <div class="wsc-stat">Online</div>
+                            <div class="wsc-stat"><? _e('Online', 'intellecti-whatsapp-button-locale');?></div>
                         </div>
                     </div>
                 <?php

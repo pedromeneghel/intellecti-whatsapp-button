@@ -20,7 +20,9 @@
         <div class="wsc-close"><i class="fas fa-times"></i></div>
         <div class="wsc-header-red">
             <div class="wsc-content text-left">
-                <div class="wsc-name text-light">Order Now</div>
+                <div class="wsc-name text-light">
+                    <? _e('Pagar agora', 'intellecti-whatsapp-button-locale');?>
+                </div>
             </div>
         </div>
         <div class="wsc-text text-center">
@@ -32,7 +34,7 @@
         <div class="wsc-container p-0">
             <div class="wsc-chat" data-number="+905536384964">
                 <div class="input-group">
-                    <input type="text" class="form-control rounded-0 border-0" placeholder="Select Number!" />
+                    <input type="text" class="form-control rounded-0 border-0" placeholder="<? _e('Escolha um número', 'intellecti-whatsapp-button-locale');?>" />
                     <div class="input-group-append">
                         <div class="btn btn btn-link rounded-0" id="send"><i class="fas fa-play text-dark"></i></div>
                     </div>
