@@ -34,13 +34,13 @@ De primeiro momento, é possível escolher entre duas opções de template para 
 
     -   [x] Campo de função do atendente(Ex: Suporte técnico, Financeiro, Comercial, Vendas, etc.);
 
--   [ ] Front end do plugin;
+-   [x] Front end do plugin;
 
     -   [x] Linkar os campos do painel administrativo com o front end:
 
         -   [x] Ajustar a exibição por dia e horário por atendente;
 
-        -   [ ] Fazer tratamento na imagem do atendente caso o mesmo não tenha foto adicionada;
+        -   [x] Fazer tratamento na imagem do atendente caso o mesmo não tenha foto adicionada;
 
         -   [x] Linkar título e descrição da janela de chat
 
