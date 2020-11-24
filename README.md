@@ -44,8 +44,8 @@ De primeiro momento, é possível escolher entre duas opções de template para 
 
         -   [x] Linkar título e descrição da janela de chat
 
--   [ ] Tradução para outros idiomas:
+-   [x] Tradução para outros idiomas:
 
-    -   [ ] Preparar o frontend para que possa ser traduzido;
+    -   [x] Preparar o frontend para que possa ser traduzido;
 
-    -   [ ] Preparar o back end para que possa ser traduzido;
+    -   [x] Preparar o back end para que possa ser traduzido;

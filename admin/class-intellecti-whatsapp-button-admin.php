@@ -43,8 +43,8 @@ class Intellecti_Whatsapp_Button_Admin {
     public function add_settings_page()
     {
 		add_options_page(
-			'Intellecti WhatsApp Button',
-			'WhatsApp Button',
+			__('Intellecti WhatsApp Button', 'intellecti-whatsapp-button-locale'),
+            __('WhatsApp Button', 'intellecti-whatsapp-button-locale'),
             'manage_options',
             'intellecti-whatsapp-button-options',
 			array($this, 'render_settings_page')
@@ -89,9 +89,9 @@ class Intellecti_Whatsapp_Button_Admin {
     {
         add_settings_section(
             'iwb_options',
-            'Configurações do plugin',
+            __('Configurações do plugin', 'intellecti-whatsapp-button-locale'),
             function( $args ){
-                echo 'Abaixo estão disposníveis todos as configurações do plugin.';
+                echo __('Abaixo estão disposníveis todos as configurações do plugin.', 'intellecti-whatsapp-button-locale');
             },
             'iwb_options_group'
         );
@@ -126,11 +126,11 @@ class Intellecti_Whatsapp_Button_Admin {
                 'name'      => 'iwb_status',
                 'options'   => array(
                     array(
-                        'label' => 'Sim',
+                        'label' => __('Sim', 'intellecti-whatsapp-button-locale'),
                         'value' => 'sim'
                     ),
                     array(
-                        'label' => 'Não',
+                        'label' => __('Não', 'intellecti-whatsapp-button-locale'),
                         'value' => 'nao'
                     )
                 )
@@ -144,14 +144,14 @@ class Intellecti_Whatsapp_Button_Admin {
             array(
                 'type' => 'string',
                 'sanitize_callback' => 'sanitize_text_field',
-                'default' => 'Precisa de ajuda? Vamos conversar',
+                'default' => __('Precisa de ajuda? Vamos conversar!', 'intellecti-whatsapp-button-locale'),
             )
         );
 
         // Adicionando o campo iwb_button_text
         add_settings_field(
             'iwb_button_text',
-            'Texto do botão',
+            __('Texto do botão', 'intellecti-whatsapp-button-locale'),
             array($this, 'input_field'),
             'iwb_options_group',
             'iwb_options',
@@ -169,14 +169,14 @@ class Intellecti_Whatsapp_Button_Admin {
             array(
                 'type' => 'string',
                 'sanitize_callback' => 'sanitize_text_field',
-                'default' => 'Precisa de ajuda? Converse conosco!',
+                'default' => __('Precisa de ajuda? Converse conosco!', 'intellecti-whatsapp-button-locale'),
             )
         );
 
         // Adicionando o campo iwb_chat_title
         add_settings_field(
             'iwb_chat_title',
-            'Título da janela de chat',
+            __('Título da janela de chat', 'intellecti-whatsapp-button-locale'),
             array($this, 'input_field'),
             'iwb_options_group',
             'iwb_options',
@@ -194,14 +194,14 @@ class Intellecti_Whatsapp_Button_Admin {
             array(
                 'type' => 'string',
                 'sanitize_callback' => 'sanitize_text_field',
-                'default' => 'Contate um membro de nossa equipe',
+                'default' => __('Contate um membro de nossa equipe', 'intellecti-whatsapp-button-locale'),
             )
         );
 
         // Adicionando o campo iwb_chat_description
         add_settings_field(
             'iwb_chat_description',
-            'Descrição da janela de chat',
+            __('Descrição da janela de chat', 'intellecti-whatsapp-button-locale'),
             array($this, 'input_field'),
             'iwb_options_group',
             'iwb_options',
@@ -239,7 +239,7 @@ class Intellecti_Whatsapp_Button_Admin {
         // Adicionando o campo iwp_atendent_default
         add_settings_field(
             'iwb_atendent_default',
-            'Atendente Padrão',
+            __('Atendente Padrão', 'intellecti-whatsapp-button-locale'),
             array($this, 'select_field'),
             'iwb_options_group',
             'iwb_options',
@@ -247,7 +247,7 @@ class Intellecti_Whatsapp_Button_Admin {
                 'label_for'     => 'iwb_atendent_default_id',
                 'class'         => 'classe-html-tr',
                 'name'          => 'iwb_atendent_default',
-                'description'   => 'A opção de atendente padrão é utilizada apenas quando selecionado o Template 2 que exibe diretamente o atendente na janela de chat.',
+                'description'   => __('A opção de atendente padrão é utilizada apenas quando selecionado o Template 2 que exibe diretamente o atendente na janela de chat.', 'intellecti-whatsapp-button-locale'),
                 'options'       => $options
             ]
         );
@@ -265,7 +265,7 @@ class Intellecti_Whatsapp_Button_Admin {
         // Adicionando a capo
         add_settings_field(
             'iwb_template',
-            'Template da janela de atendimento',
+            __('Template da janela de atendimento', 'intellecti-whatsapp-button-locale'),
             array($this, 'select_field'),
             'iwb_options_group',
             'iwb_options',
@@ -353,37 +353,37 @@ class Intellecti_Whatsapp_Button_Admin {
     public function register_post_type_atendent()
     {
         $labels = [
-            "name" => __("Intellecti WhatsApp Button - Atendentes", "intellecti"),
-            "singular_name" => __("Intellecti WhatsApp Button - Atendente", "intellecti"),
-            "menu_name" => __("IWB - Atendentes", "intellecti"),
-            "all_items" => __("Todos os atendentes", "intellecti"),
-            "add_new" => __("Adicionar novo atendente", "intellecti"),
-            "add_new_item" => __("Adicionar novo atendente", "intellecti"),
-            "edit_item" => __("Editar atendente", "intellecti"),
-            "new_item" => __("Novo atendente", "intellecti"),
-            "view_item" => __("Ver atendente", "intellecti"),
-            "view_items" => __("Ver atendentes", "intellecti"),
-            "search_items" => __("Procurar atendente", "intellecti"),
-            "not_found" => __("Atendente não encontrado", "intellecti"),
-            "not_found_in_trash" => __("Atendente não encontrado na lixeira", "intellecti"),
-            "featured_image" => __("Foto do atendente", "intellecti"),
-            "set_featured_image" => __("Definir foto do atendente", "intellecti"),
-            "remove_featured_image" => __("Remover foto do atendente", "intellecti"),
-            "use_featured_image" => __("Usar esta foto para o atendente", "intellecti"),
-            "archives" => __("Atendentes arquivados", "intellecti"),
-            "insert_into_item" => __("Inserir atendente", "intellecti"),
-            "filter_items_list" => __("Filtrar lista de atendenetes", "intellecti"),
-            "items_list" => __("Lista de atendentes", "intellecti"),
-            "name_admin_bar" => __("Novo atendente", "intellecti"),
-            "item_published" => __("Atendente publicado", "intellecti"),
-            "item_scheduled" => __("Atendente agendado", "intellecti"),
-            "item_updated" => __("Atendente atualizado", "intellecti"),
+            "name" => __("Intellecti WhatsApp Button - Atendentes", "intellecti-whatsapp-button-locale"),
+            "singular_name" => __("Intellecti WhatsApp Button - Atendente", "intellecti-whatsapp-button-locale"),
+            "menu_name" => __("IWB - Atendentes", "intellecti-whatsapp-button-locale"),
+            "all_items" => __("Todos os atendentes", "intellecti-whatsapp-button-locale"),
+            "add_new" => __("Adicionar novo atendente", "intellecti-whatsapp-button-locale"),
+            "add_new_item" => __("Adicionar novo atendente", "intellecti-whatsapp-button-locale"),
+            "edit_item" => __("Editar atendente", "intellecti-whatsapp-button-locale"),
+            "new_item" => __("Novo atendente", "intellecti-whatsapp-button-locale"),
+            "view_item" => __("Ver atendente", "intellecti-whatsapp-button-locale"),
+            "view_items" => __("Ver atendentes", "intellecti-whatsapp-button-locale"),
+            "search_items" => __("Procurar atendente", "intellecti-whatsapp-button-locale"),
+            "not_found" => __("Atendente não encontrado", "intellecti-whatsapp-button-locale"),
+            "not_found_in_trash" => __("Atendente não encontrado na lixeira", "intellecti-whatsapp-button-locale"),
+            "featured_image" => __("Foto do atendente", "intellecti-whatsapp-button-locale"),
+            "set_featured_image" => __("Definir foto do atendente", "intellecti-whatsapp-button-locale"),
+            "remove_featured_image" => __("Remover foto do atendente", "intellecti-whatsapp-button-locale"),
+            "use_featured_image" => __("Usar esta foto para o atendente", "intellecti-whatsapp-button-locale"),
+            "archives" => __("Atendentes arquivados", "intellecti-whatsapp-button-locale"),
+            "insert_into_item" => __("Inserir atendente", "intellecti-whatsapp-button-locale"),
+            "filter_items_list" => __("Filtrar lista de atendenetes", "intellecti-whatsapp-button-locale"),
+            "items_list" => __("Lista de atendentes", "intellecti-whatsapp-button-locale"),
+            "name_admin_bar" => __("Novo atendente", "intellecti-whatsapp-button-locale"),
+            "item_published" => __("Atendente publicado", "intellecti-whatsapp-button-locale"),
+            "item_scheduled" => __("Atendente agendado", "intellecti-whatsapp-button-locale"),
+            "item_updated" => __("Atendente atualizado", "intellecti-whatsapp-button-locale"),
         ];
 
         $args = [
-            "label" => __("Intellecti WhatsApp Button - Atendentes", "intellecti"),
+            "label" => __("Intellecti WhatsApp Button - Atendentes", "intellecti-whatsapp-button-locale"),
             "labels" => $labels,
-            "description" => "Gestão dos integrantes do time de atendimento disponibilizado no chat de atendimento via WhatsApp",
+            "description" => __("Gestão dos integrantes do time de atendimento disponibilizado no chat de atendimento via WhatsApp", "intellecti-whatsapp-button-locale"),
             "public" => true,
             "publicly_queryable" => true,
             "show_ui" => true,
@@ -414,7 +414,7 @@ class Intellecti_Whatsapp_Button_Admin {
         // Telefone do antendente
         add_meta_box(
             'iwb_atendent_phone_field',
-            'Telefone do Atendente',
+            __('Telefone do Atendente', 'intellecti-whatsapp-button-locale'),
             array($this, 'render_atendent_phone'),
             'iwb-team',
             'side',
@@ -424,7 +424,7 @@ class Intellecti_Whatsapp_Button_Admin {
         // Função do atendente
         add_meta_box(
             'iwb_atendent_occupation_field',
-            'Função do atendente',
+            __('Função do atendente', 'intellecti-whatsapp-button-locale'),
             array($this, 'render_atendent_occupation'),
             'iwb-team',
             'side',
@@ -434,7 +434,7 @@ class Intellecti_Whatsapp_Button_Admin {
         // Campos dia da semana
         add_meta_box(
             'iwb_atendent_online_hours_field',
-            'Horários de Atendimento',
+            __('Horários de Atendimento', 'intellecti-whatsapp-button-locale'),
             array($this, 'render_atendent_online_hours'),
             'iwb-team',
             'advanced',

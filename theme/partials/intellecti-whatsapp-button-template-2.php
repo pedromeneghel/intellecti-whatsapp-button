@@ -49,7 +49,7 @@ if ($atendents->have_posts()) :
                     <div class="wsc-container p-0">
                         <div class="wsc-chat" data-number="<?= $custom_fields['_iwb_atendent_phone'][0]; ?>">
                             <div class="input-group">
-                                <input type="text" class="form-control rounded-0 border-0" placeholder="Digite uma mensagem" />
+                                <input type="text" class="form-control rounded-0 border-0" placeholder="<? _e('Digite uma mensagem', 'intellecti-whatsapp-button-locale');?>" />
                                 <div class="input-group-append">
                                     <div class="btn btn btn-link rounded-0" id="send"><i class="fas fa-play text-dark"></i></div>
                                 </div>
